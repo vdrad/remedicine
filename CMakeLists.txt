@@ -56,8 +56,11 @@ target_include_directories(remedicine PRIVATE
 # Add any user requested libraries
 target_link_libraries(remedicine 
         hardware_timer
-        
+        hardware_pio
+        hardware_clocks
         )
 
 pico_add_extra_outputs(remedicine)
 
+# Generate PIO header
+pico_generate_pio_header(remedicine ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
