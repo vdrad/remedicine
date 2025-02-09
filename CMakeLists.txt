@@ -37,8 +37,9 @@ pico_sdk_init()
 
 add_executable(remedicine remedicine.c 
         inc/pinout.c
-        inc/ssd1306_i2c.c
         inc/rgb_matrix/rgb_matrix.c
+        inc/oled_display/ssd1306_i2c.c
+        inc/oled_display/oled_display.c
 )
 
 pico_set_program_name(remedicine "remedicine")
