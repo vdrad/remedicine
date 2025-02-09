@@ -35,7 +35,11 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(remedicine remedicine.c )
+add_executable(remedicine remedicine.c 
+        inc/pinout.c
+        inc/ssd1306_i2c.c
+        inc/rgb_matrix/rgb_matrix.c
+)
 
 pico_set_program_name(remedicine "remedicine")
 pico_set_program_version(remedicine "0.1")
@@ -58,6 +62,7 @@ target_link_libraries(remedicine
         hardware_timer
         hardware_pio
         hardware_clocks
+        hardware_i2c
         )
 
 pico_add_extra_outputs(remedicine)
