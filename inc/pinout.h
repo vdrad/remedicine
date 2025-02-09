@@ -1,7 +1,12 @@
 #ifndef __PINOUT_H__ // Caso já tenha sido declarada em algum outro lugar, não declare novamente.
 #define __PINOUT_H__
 
-#define RGB_LED_PIN 7
-#define RGB_LED_COUNT 25
+// Pinos da Matriz de LEDs RGB
+#define RGB_MATRIX_PIN 7
+#define RGB_MATRIX_COUNT 25
+
+// Pinos I2C
+#define I2C_SDA_PIN 14
+#define I2C_SCL_PIN 15
 
 #endif
