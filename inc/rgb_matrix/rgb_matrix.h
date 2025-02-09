@@ -21,15 +21,15 @@
 #define BLANK_COLOR     0,   0,   0
 
 // Declaração dos padrões como extern para que possam ser acessados externamente
-extern uint8_t cross_pattern[RGB_LED_COUNT];
-extern uint8_t x_pattern[RGB_LED_COUNT];
-extern uint8_t circle_pattern[RGB_LED_COUNT];
-extern uint8_t square_pattern[RGB_LED_COUNT];
-extern uint8_t triangle_pattern[RGB_LED_COUNT];
+extern uint8_t cross_pattern[RGB_MATRIX_COUNT];
+extern uint8_t x_pattern[RGB_MATRIX_COUNT];
+extern uint8_t circle_pattern[RGB_MATRIX_COUNT];
+extern uint8_t square_pattern[RGB_MATRIX_COUNT];
+extern uint8_t triangle_pattern[RGB_MATRIX_COUNT];
 
 // Funções de acesso externo
 void rgb_matrix_init();
 void rgb_matrix_write_pattern(const uint8_t *pattern, const uint8_t r, const uint8_t g, const uint8_t b);
-void rgb_matrix_test();
+void rgb_matrix_validate();
 
 #endif

@@ -8,7 +8,7 @@
 
 // // Definição de desenhos padronizados para serem desenhados na matriz de LEDs
 // Padrão de "+"
-uint8_t cross_pattern[RGB_LED_COUNT] = {
+uint8_t cross_pattern[RGB_MATRIX_COUNT] = {
   0, 0, 1, 0, 0,
   0, 0, 1, 0, 0,
   1, 1, 1, 1, 1,
@@ -17,7 +17,7 @@ uint8_t cross_pattern[RGB_LED_COUNT] = {
 };
 
 // Padrão de "X"
-uint8_t x_pattern[RGB_LED_COUNT] = {
+uint8_t x_pattern[RGB_MATRIX_COUNT] = {
   1, 0, 0, 0, 1,
   0, 1, 0, 1, 0,
   0, 0, 1, 0, 0,
@@ -26,7 +26,7 @@ uint8_t x_pattern[RGB_LED_COUNT] = {
 };
 
 // Padrão de "O"
-uint8_t circle_pattern[RGB_LED_COUNT] = {
+uint8_t circle_pattern[RGB_MATRIX_COUNT] = {
   0, 1, 1, 1, 0,
   1, 0, 0, 0, 1,
   1, 0, 0, 0, 1,
@@ -35,7 +35,7 @@ uint8_t circle_pattern[RGB_LED_COUNT] = {
 };
 
 // Padrão de [QUADRADO]
-uint8_t square_pattern[RGB_LED_COUNT] = {
+uint8_t square_pattern[RGB_MATRIX_COUNT] = {
   1, 1, 1, 1, 1,
   1, 0, 0, 0, 1,
   1, 0, 0, 0, 1,
@@ -44,7 +44,7 @@ uint8_t square_pattern[RGB_LED_COUNT] = {
 };
 
 // Padrão de [TRIÂNGULO]
-uint8_t triangle_pattern[RGB_LED_COUNT] = {
+uint8_t triangle_pattern[RGB_MATRIX_COUNT] = {
   0, 0, 0, 0, 0,
   1, 1, 1, 1, 1,
   0, 1, 1, 1, 0,
@@ -61,7 +61,7 @@ typedef struct pixel_t pixel_t;
 typedef pixel_t RGB_LED_t; // Cria instância da estrutura
 
 // Declaração do buffer de pixels que formam a matriz.
-RGB_LED_t rgb_leds[RGB_LED_COUNT];
+RGB_LED_t rgb_leds[RGB_MATRIX_COUNT];
 
 // Variáveis para uso da máquina PIO.
 PIO np_pio;
@@ -88,7 +88,7 @@ void np_init(uint pin) {
   ws2818b_program_init(np_pio, sm, offset, pin, 800000.f);
 
   // Limpa buffer de pixels.
-  for (uint i = 0; i < RGB_LED_COUNT; ++i) {
+  for (uint i = 0; i < RGB_MATRIX_COUNT; ++i) {
     rgb_leds[i].R = 0;
     rgb_leds[i].G = 0;
     rgb_leds[i].B = 0;
@@ -112,7 +112,7 @@ void np_set_led(const uint index, const uint8_t r, const uint8_t g, const uint8_
  * Limpa o buffer de pixels.
  */
 void np_clear() {
-  for (uint8_t i = 0; i < RGB_LED_COUNT; ++i)
+  for (uint8_t i = 0; i < RGB_MATRIX_COUNT; ++i)
     np_set_led(i, 0, 0, 0);
 }
 
@@ -121,7 +121,7 @@ void np_clear() {
  */
 void np_write() {
   // Escreve cada dado de 8-bits dos pixels em sequência no buffer da máquina PIO.
-  for (uint i = 0; i < RGB_LED_COUNT; ++i) {
+  for (uint i = 0; i < RGB_MATRIX_COUNT; ++i) {
     pio_sm_put_blocking(np_pio, sm, rgb_leds[i].G);
     pio_sm_put_blocking(np_pio, sm, rgb_leds[i].R);
     pio_sm_put_blocking(np_pio, sm, rgb_leds[i].B);
@@ -129,9 +129,13 @@ void np_write() {
   sleep_us(100); // Espera 100us, sinal de RESET do datasheet.
 }
 
+/**
+ * Inicializa a matriz de LEDs RGB.
+ */
 void rgb_matrix_init() {
-    np_init(RGB_LED_PIN);
-    np_clear();
+  np_init(RGB_MATRIX_PIN);
+  np_clear();
+  np_write();
 }
 
 /**
@@ -144,7 +148,7 @@ void rgb_matrix_init() {
 void rgb_matrix_write_pattern(const uint8_t *pattern, const uint8_t r, const uint8_t g, const uint8_t b) {
     // Passa por todos os LEDs da Matriz. Caso aquele LED esteja ativo no padrão escolhido, escreve a cor desejada.
     // Caso o LED não esteja ativo, torna-o apagado.
-    for (uint8_t currentLED = 0; currentLED < RGB_LED_COUNT; currentLED++) {
+    for (uint8_t currentLED = 0; currentLED < RGB_MATRIX_COUNT; currentLED++) {
         if (pattern[currentLED]) {
             np_set_led(currentLED, r, g, b);
         } else {
@@ -157,7 +161,7 @@ void rgb_matrix_write_pattern(const uint8_t *pattern, const uint8_t r, const uin
 /**
  * Exibe todos os padrões configurados a cada 2s para teste.
  */
-void rgb_matrix_test() {
+void rgb_matrix_validate() {
   while (true) {
     rgb_matrix_write_pattern(cross_pattern, RED);
     sleep_ms(2000);
