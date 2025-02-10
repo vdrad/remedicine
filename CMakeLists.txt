@@ -40,6 +40,7 @@ add_executable(remedicine remedicine.c
         inc/rgb_matrix/rgb_matrix.c
         inc/oled_display/ssd1306_i2c.c
         inc/oled_display/oled_display.c
+        inc/buzzer/buzzer.c
 )
 
 pico_set_program_name(remedicine "remedicine")

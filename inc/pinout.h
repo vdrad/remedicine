@@ -9,4 +9,7 @@
 #define I2C_SDA_PIN 14
 #define I2C_SCL_PIN 15
 
+// Pino do Buzzer 
+#define BUZZER_PIN 21   
+
 #endif
