@@ -65,6 +65,7 @@ target_link_libraries(remedicine
         hardware_pio
         hardware_clocks
         hardware_i2c
+        hardware_pwm
         )
 
 pico_add_extra_outputs(remedicine)
