@@ -13,4 +13,8 @@
 #define LEFT_BUZZER_PIN 21   
 #define RIGHT_BUZZER_PIN 10   
 
+// Pinos dos botões
+#define A_BUTTON_PIN 5
+#define B_BUTTON_PIN 6
+
 #endif

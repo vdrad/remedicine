@@ -52,6 +52,14 @@ uint8_t triangle_pattern[RGB_MATRIX_COUNT] = {
   0, 0, 0, 0, 0,
 };
 
+// Padrão Vazio
+uint8_t clear_pattern[RGB_MATRIX_COUNT] = {
+  0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0,
+};
 
 // Definição de pixel GRB
 struct pixel_t {
