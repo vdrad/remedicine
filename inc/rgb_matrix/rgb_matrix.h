@@ -26,6 +26,8 @@ extern uint8_t x_pattern[RGB_MATRIX_COUNT];
 extern uint8_t circle_pattern[RGB_MATRIX_COUNT];
 extern uint8_t square_pattern[RGB_MATRIX_COUNT];
 extern uint8_t triangle_pattern[RGB_MATRIX_COUNT];
+extern uint8_t smile_pattern[RGB_MATRIX_COUNT];
+extern uint8_t sad_pattern[RGB_MATRIX_COUNT];
 extern uint8_t clear_pattern[RGB_MATRIX_COUNT];
 
 // Funções de acesso externo

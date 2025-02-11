@@ -52,6 +52,24 @@ uint8_t triangle_pattern[RGB_MATRIX_COUNT] = {
   0, 0, 0, 0, 0,
 };
 
+// Padrão de :)
+uint8_t smile_pattern[RGB_MATRIX_COUNT] = {
+  0, 0, 0, 0, 0,
+  0, 1, 1, 1, 0,
+  1, 0, 0, 0, 1,
+  0, 1, 0, 1, 0,
+  0, 0, 0, 0, 0,
+};
+
+// Padrão de :(
+uint8_t sad_pattern[RGB_MATRIX_COUNT] = {
+  1, 0, 0, 0, 1,
+  0, 1, 1, 1, 0,
+  0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0, 1, 0, 1, 0,
+};
+
 // Padrão Vazio
 uint8_t clear_pattern[RGB_MATRIX_COUNT] = {
   0, 0, 0, 0, 0,
