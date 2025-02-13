@@ -103,7 +103,7 @@ uint8_t reverse_byte(uint8_t b) {
   // Faz a reversão bit a bit seguindo a lógica: 
   // 1. Captura o i-ésimo bit do byte original ((b >> i) & 0x1)
   // 2. Envia-o para a variável reversed com o operador |
-  // 3. Arrasta o bit transferido para a esquerda (reversed << 1)
+  // 3. Arrasta o bit transferido para a esquerda até que todos sejam transferidos (reversed << 1)
   for (uint8_t i = 0; i < 8; i++) {
     reversed = reversed << 1; // 
     reversed = (reversed | ((b >> i) & 0x1)); 
