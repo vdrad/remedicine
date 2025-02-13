@@ -23,17 +23,17 @@ int main() {
     // Não faz mais nada. Loop infinito.
     while (true) {
         if (get_a_button_state()) {
-            rgb_matrix_write_pattern(smile_pattern, GREEN);
+            rgb_matrix_write_pattern(smile_pattern, PURPLE);
             sleep_ms(2000);
             rgb_matrix_write_pattern(clear_pattern, BLANK_COLOR);
         }
 
         if (get_b_button_state()) {
-            rgb_matrix_write_pattern(sad_pattern, RED);
+            rgb_matrix_write_pattern(sad_pattern, EMERALD);
             sleep_ms(2000);
             rgb_matrix_write_pattern(clear_pattern, BLANK_COLOR);
         }
-        // sleep_ms(1000);
+        // sleep_ms(5000);
     }
 
     return 0;

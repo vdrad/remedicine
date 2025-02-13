@@ -94,6 +94,25 @@ PIO np_pio;
 uint sm;
 
 /**
+ * Reverte a ordem de um byte LSB -> MSB e sucessivamente.
+ * @param b o byte a ser revertido
+ */
+uint8_t reverse_byte(uint8_t b) {
+  uint8_t reversed = 0; // Inicializa o byte a ser revertido
+
+  // Faz a reversão bit a bit seguindo a lógica: 
+  // 1. Captura o i-ésimo bit do byte original ((b >> i) & 0x1)
+  // 2. Envia-o para a variável reversed com o operador |
+  // 3. Arrasta o bit transferido para a esquerda (reversed << 1)
+  for (uint8_t i = 0; i < 8; i++) {
+    reversed = reversed << 1; // 
+    reversed = (reversed | ((b >> i) & 0x1)); 
+  }
+
+  return reversed;
+}
+
+/**
  * Inicializa a máquina PIO para controle da matriz de LEDs.
  * @param pin 
  */
@@ -129,9 +148,14 @@ void np_init(uint pin) {
  * @param b
  */
 void np_set_led(const uint index, const uint8_t r, const uint8_t g, const uint8_t b) {
-  rgb_leds[index].R = r;
-  rgb_leds[index].G = g;
-  rgb_leds[index].B = b;
+  // É preciso reverter a ordem dos bytes pois o LED RGB processa primeiro o MSB.
+  uint8_t reversed_r = reverse_byte(r);
+  uint8_t reversed_g = reverse_byte(g);
+  uint8_t reversed_b = reverse_byte(b);
+
+  rgb_leds[index].R = reversed_r;
+  rgb_leds[index].G = reversed_g;
+  rgb_leds[index].B = reversed_b;
 }
 
 /**
