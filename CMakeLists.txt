@@ -42,6 +42,7 @@ add_executable(remedicine remedicine.c
         inc/oled_display/oled_display.c
         inc/buzzer/buzzer.c
         inc/buttons/buttons.c
+        inc/microphone/microphone.c
 )
 
 pico_set_program_name(remedicine "remedicine")
@@ -67,6 +68,8 @@ target_link_libraries(remedicine
         hardware_clocks
         hardware_i2c
         hardware_pwm
+        hardware_dma
+        hardware_adc
         )
 
 pico_add_extra_outputs(remedicine)

@@ -39,6 +39,9 @@
     "files.associations": {
         "pwm.h": "c",
         "buzzer.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "rgb_matrix.h": "c",
+        "clocks.h": "c",
+        "microphone.h": "c"
     }
 }

@@ -8,8 +8,7 @@
 #include "inc/oled_display/oled_display.h"  // Biblioteca do Display OLED.
 #include "inc/buzzer/buzzer.h"              // Biblioteca do Buzzer.
 #include "inc/buttons/buttons.h"            // Biblioteca do Botão.
-
-int y = 0;
+#include "inc/microphone/microphone.h"      // Biblioteca do Microfone.
 
 /* ==================================== CÓDIGO PRINCIPAL ==================================== */
 int main() {
@@ -19,6 +18,7 @@ int main() {
     buzzer_init('L');       // Inicializa o Buzzer Esquerdo
     button_init('A');       // Inicializa o Botão A
     button_init('B');       // Inicializa o Botão B
+    microphone_init();      // Inicializa o Microfone
 
     // Não faz mais nada. Loop infinito.
     while (true) {

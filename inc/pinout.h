@@ -17,4 +17,8 @@
 #define A_BUTTON_PIN 5
 #define B_BUTTON_PIN 6
 
+// Pino do Microfone
+#define MICROPHONE_CHANNEL 2
+#define MICROPHONE_PIN (26 + MICROPHONE_CHANNEL)
+
 #endif
