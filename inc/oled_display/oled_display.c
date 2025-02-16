@@ -29,9 +29,19 @@ void oled_display_init() {
     gpio_pull_up(I2C_SCL_PIN);
     
     ssd1306_init();
-
     // Preparar área de renderização para o display (ssd1306_width pixels por ssd1306_n_pages páginas)
     calculate_render_area_buffer_length(&frame_area);
+
+    // Exibe uma mensagem inicial
+    char *text[6] = {
+        "  REMEDICINE",
+        "",
+        "",
+        "Aperte algum",
+        "botao para",
+        "continuar,"
+    };
+    oled_display_write(text, count_of(text), 8);
 }
 
 /**
@@ -41,10 +51,9 @@ void oled_display_init() {
  * @param inital_y  a altura inicial do texto a ser escrito
  */
 void oled_display_write(char *text[], uint8_t n_lines, int16_t initial_y) {
-    // Zera o display inteiro
+    // Cria as variáveis para escrita do texto
     uint8_t ssd[ssd1306_buffer_length];
     memset(ssd, 0, ssd1306_buffer_length);
-    render_on_display(ssd, &frame_area);
 
     // Parte do código para exibir a mensagem no display.
     int16_t y = initial_y;
