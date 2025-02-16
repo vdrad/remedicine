@@ -64,6 +64,20 @@ void alarm_init() {
  * @param medicine o vetor de remédios
  */
 void notify_medicine (Reminders *medicine) {
+    // Texto a ser exibido no Display OLED
+    char *text[4] = {
+        "[NOME_DO_REMEDIO]",            // Receberá o nome cadastrado
+        "",
+        "",
+        "[HORARIO]",                    // Receberá o horário do alarme
+    };
+    text[0] = medicine->medicine_name;  // Copia o nome do remédio
+    char buffer[15];
+    get_current_time(buffer);
+    text[3] = buffer;                   // Copia o horário atual
+    oled_display_write(text, count_of(text), 8);
+    // cancel_repeating_timer(display_timer);
+
     uint8_t melody_played = 1;  // Comando para habilitar que o buzzer toque melodias
 
     // Envia o padrão e cor selecionados para a Matriz de LEDs RGB 
@@ -83,16 +97,23 @@ void notify_medicine (Reminders *medicine) {
     // Caso a melodia tenha sido interrompida antes do fim, significa que o usuário reconheceu o alarme.
     // Assim, envie uma carinha sorridente :) na cor verde parabenizando por ter tomado o remédio
     if (melody_played == 0) {
+        text[0] = "   Parabens";
+        text[2] = "  Voce tomou";
+        text[3] = "  Seu remedio";
+        oled_display_write(text, count_of(text), 8);            // Atualiza o display com uma mensagem de sucesso
         rgb_matrix_write_pattern(smile_pattern, GREEN);
         buzzer_play_melody('L', &smile_melody);
     } 
     // Caso a melodia tenha tocado até o fim, significa que o usuário não reconheceu o alarme.
     // Assim, envie uma carinha triste :( na cor vermelha indicando que o horário do remédio foi perdido.
     else {
+        text[0] = "    Ops";
+        text[2] = " Voce esqueceu";
+        text[3] = "  Seu remedio";
+        oled_display_write(text, count_of(text), 8);            // Atualiza o display com uma mensagem de falha
         rgb_matrix_write_pattern(sad_pattern, RED);
         buzzer_play_melody('L', &sad_melody);
     }
-
     rgb_matrix_write_pattern(clear_pattern, BLANK_COLOR);   // Limpa a matriz de LEDs
 }
 
