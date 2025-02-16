@@ -13,5 +13,6 @@
 // Funções
 void microphone_init();
 bool microphone_detect_blow();
+uint8_t get_microphone_read();
 
 #endif

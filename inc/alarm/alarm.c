@@ -14,6 +14,24 @@
 bool alarm_being_played = false;            // Flag para identificar se algum alarme está sendo tocado
 
 /**
+ * Inicializa a rotina de alarme e check de data e hora
+ */
+void alarm_init() {
+    datetime_t initial_time = {
+        .year   = 2025,
+        .month  = 1,
+        .day    = 15,
+        .dotw   = 6,
+        .hour   = 12,
+        .min    = 00,
+        .sec    = 00
+    };
+
+    rtc_init();
+    rtc_set_datetime(&initial_time);
+}
+
+/**
  * Identifica se é hora de sinalizar o alarme de algum remédio
  * @return o índice correspondente ao remédio cujo alarme está ativo.
  * -1 significa que não há alarme ativo.
@@ -42,28 +60,12 @@ int8_t check_for_medicine_alarm() {
 }
 
 /**
- * Inicializa a rotina de alarme e check de data e hora
- */
-void alarm_init() {
-    datetime_t initial_time = {
-        .year   = 2025,
-        .month  = 1,
-        .day    = 15,
-        .dotw   = 6,
-        .hour   = 12,
-        .min    = 00,
-        .sec    = 00
-    };
-
-    rtc_init();
-    rtc_set_datetime(&initial_time);
-}
-
-/**
  * Notifica do remédio cujo alarme está ativo no momento.
  * @param medicine o vetor de remédios
+ * @param repetitions quantas vezes a melodia irá se repetir
+ * @param alarm_recognition 0 para não ativar a lógica de reconhecimento de alarme. 1 c.c
  */
-void notify_medicine (Reminders *medicine) {
+void notify_medicine (Reminders *medicine, uint8_t repetitions, uint8_t alarm_recognition) {
     // Texto a ser exibido no Display OLED
     char *text[4] = {
         "[NOME_DO_REMEDIO]",            // Receberá o nome cadastrado
@@ -88,32 +90,54 @@ void notify_medicine (Reminders *medicine) {
     );
 
     // Repete a melodia cadastrada 10 vezes para dar tempo suficiente de que seja escutada
-    for (uint8_t i = 0; i < 10; i++) {
+    for (uint8_t i = 0; i < repetitions; i++) {
         melody_played = buzzer_play_melody('L', medicine->chosen_melody);
     }
     set_stop_melody(0); // Habilita o buzzer a tocar melodias
 
-    // Caso a melodia tenha sido interrompida antes do fim, significa que o usuário reconheceu o alarme.
-    // Assim, envie uma carinha sorridente :) na cor verde parabenizando por ter tomado o remédio
-    if (melody_played == 0) {
-        text[0] = "   Parabens";
-        text[2] = "  Voce tomou";
-        text[3] = "  Seu remedio";
-        oled_display_write(text, count_of(text), 8);            // Atualiza o display com uma mensagem de sucesso
-        rgb_matrix_write_pattern(smile_pattern, GREEN);
-        buzzer_play_melody('L', &smile_melody);
-    } 
-    // Caso a melodia tenha tocado até o fim, significa que o usuário não reconheceu o alarme.
-    // Assim, envie uma carinha triste :( na cor vermelha indicando que o horário do remédio foi perdido.
-    else {
-        text[0] = "    Ops";
-        text[2] = " Voce esqueceu";
-        text[3] = "  Seu remedio";
-        oled_display_write(text, count_of(text), 8);            // Atualiza o display com uma mensagem de falha
-        rgb_matrix_write_pattern(sad_pattern, RED);
-        buzzer_play_melody('L', &sad_melody);
+    if (alarm_recognition) {
+        // Caso a melodia tenha sido interrompida antes do fim, significa que o usuário reconheceu o alarme.
+        // Assim, envie uma carinha sorridente :) na cor verde parabenizando por ter tomado o remédio
+        if (melody_played == 0) {
+            text[0] = "   Parabens";
+            text[2] = "  Voce tomou";
+            text[3] = "  Seu remedio";
+            oled_display_write(text, count_of(text), 8);            // Atualiza o display com uma mensagem de sucesso
+            rgb_matrix_write_pattern(smile_pattern, GREEN);
+            buzzer_play_melody('L', &smile_melody);
+        } 
+        // Caso a melodia tenha tocado até o fim, significa que o usuário não reconheceu o alarme.
+        // Assim, envie uma carinha triste :( na cor vermelha indicando que o horário do remédio foi perdido.
+        else {
+            text[0] = "    Ops";
+            text[2] = " Voce esqueceu";
+            text[3] = "  Seu remedio";
+            oled_display_write(text, count_of(text), 8);            // Atualiza o display com uma mensagem de falha
+            rgb_matrix_write_pattern(sad_pattern, RED);
+            buzzer_play_melody('L', &sad_melody);
+        }
     }
     rgb_matrix_write_pattern(clear_pattern, BLANK_COLOR);   // Limpa a matriz de LEDs
+}
+
+/**
+ * Exibe todos os alarmes cadastrados
+ */
+void display_all_alarms() {
+    // Texto a ser exibido no Display OLED
+    char *text[3] = {
+        "",           
+        "",
+        "[NOME_DO_REMEDIO]",                  
+    };
+
+    // Exibe todos os alarmes
+    for (int current_alarm = 0; current_alarm < NUMERO_DE_REMEDIOS; current_alarm++) {
+        oled_display_write(text, count_of(text), 8);
+        notify_medicine(&remedios[current_alarm], 1, 0);
+        rgb_matrix_write_pattern(clear_pattern, BLANK_COLOR);
+        sleep_ms(200);
+    }
 }
 
 /**
@@ -157,7 +181,6 @@ void get_current_time(char *time_string) {
         sprintf(time_string, "   0%d:0%d:0%d", current_time.hour, current_time.min, current_time.sec);
     }
 }
-
 
 /**
  * Exibe o horário atual no display OLED

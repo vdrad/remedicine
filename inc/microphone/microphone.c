@@ -14,6 +14,7 @@ dma_channel_config dma_cfg;
 
 uint16_t adc_buffer[SAMPLES];   // Cria um buffer para armazenar leituras do ADC
 
+float average_reading;          // Leitura do microfone
 
 /**
  * Inicializa o periférico microfone da BitDogLab
@@ -42,7 +43,7 @@ void microphone_init() {
 
     // Utiliza o recurso timer para monitorar o microfone
     static struct repeating_timer  microphone_timer;                                    // Cria a estrutura de timer ciclico
-    add_repeating_timer_us(500 *1000, microphone_detect_blow, NULL, &microphone_timer); // Configura a função para ser executada a cada 500 ms
+    add_repeating_timer_us(400 *1000, microphone_detect_blow, NULL, &microphone_timer); // Configura a função para ser executada a cada 400 ms
 }
 
 /**
@@ -86,16 +87,20 @@ float microphone_read_rms_voltage() {
 }
 
 /**
- * Detecta se houve uma situação de sopro 
+ * Função de callback do alarme para deteccção de sopro
  * @return 0 caso não. 2 caso sim.
  */
 bool microphone_detect_blow() {
     micrphone_read_sample();                                                    // Faz as leituras do microfone
-    float average_reading   = microphone_read_rms_voltage();                    // Converte pra tensão RMS
+    average_reading   = microphone_read_rms_voltage();                    // Converte pra tensão RMS
     average_reading         = 2.f * abs(ADC_READ_VOLTS(average_reading));       // Converte a escala
 
     if (round(average_reading) >= 2) {
         if (get_if_alarm_being_played()) set_stop_melody(1);
     }
     return true;
+}
+
+uint8_t get_microphone_read() {
+    return round(average_reading);
 }

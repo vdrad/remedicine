@@ -30,6 +30,7 @@ int main() {
     // Espera até que o usuário pressione o Botão A ou B para avançar no código
     uint8_t a_button_pressed = get_a_button_state();
     uint8_t b_button_pressed = get_b_button_state();
+    uint8_t microphone_read  = get_microphone_read();
     while((!a_button_pressed) && (!b_button_pressed)) {
         a_button_pressed = get_a_button_state();
         b_button_pressed = get_b_button_state();
@@ -44,10 +45,21 @@ int main() {
         // Constantemente checa se há algum alarme para ser acionado.
         int8_t medicine_index = check_for_medicine_alarm();
         if (medicine_index > -1) {
-            cancel_repeating_timer(&display_timer);     // Desabilita atualização padrão do display para exibir informações do remédio
-            notify_medicine(&remedios[medicine_index]); // Notifica ao usuário do remédio a ser tomado
+            cancel_repeating_timer(&display_timer);             // Desabilita atualização padrão do display para exibir informações do remédio
+            notify_medicine(&remedios[medicine_index], 10, 1);  // Notifica ao usuário do remédio a ser tomado
             add_repeating_timer_us(100 *1000, display_current_time, NULL, &display_timer);  // Volta a exibir o horário atual
         }
+
+        // Monitora se o usuário quer relembrar quais remédios estão cadastrados
+        a_button_pressed = get_a_button_state();
+        b_button_pressed = get_b_button_state();
+        microphone_read  = get_microphone_read();
+        if ((a_button_pressed && b_button_pressed) || microphone_read >= 2)  {
+            cancel_repeating_timer(&display_timer); // Desabilita atualização padrão do display para exibir informações do remédio
+            display_all_alarms();                   // Exibe todos os alarmes cadastrados
+            add_repeating_timer_us(100 *1000, display_current_time, NULL, &display_timer);  // Volta a exibir o horário atual
+        };
+
     }
 
     return 0;

@@ -15,11 +15,12 @@ typedef struct {
 
 // Funções
 void alarm_init();
-void validate_time();
-void notify_medicine(Reminders *medicine);
 int8_t check_for_medicine_alarm();
+void notify_medicine(Reminders *medicine, uint8_t repetitions, uint8_t alarm_recognition);
+void display_all_alarms();
 void get_current_time(char *time_string);
 void set_alarm_being_played(bool value);
+void validate_time();
 bool get_if_alarm_being_played();
 bool display_current_time();
 
