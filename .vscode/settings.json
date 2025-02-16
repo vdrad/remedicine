@@ -58,6 +58,7 @@
         "remedicine.h": "c",
         "cstring": "c",
         "stdbool.h": "c",
-        "timer.h": "c"
+        "timer.h": "c",
+        "limits": "c"
     }
 }

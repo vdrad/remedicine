@@ -7,7 +7,7 @@
 
 // Declaração dos remédios
 // Por se tratar de interação com o usuário, o código está escrito em português
-#define NUMERO_DE_REMEDIOS 2
+#define NUMERO_DE_REMEDIOS 5
 extern Reminders remedios[NUMERO_DE_REMEDIOS];
 
 #endif

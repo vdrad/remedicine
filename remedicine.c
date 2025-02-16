@@ -59,7 +59,6 @@ int main() {
             display_all_alarms();                   // Exibe todos os alarmes cadastrados
             add_repeating_timer_us(100 *1000, display_current_time, NULL, &display_timer);  // Volta a exibir o horário atual
         };
-
     }
 
     return 0;
