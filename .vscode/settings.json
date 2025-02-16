@@ -42,6 +42,21 @@
         "stdlib.h": "c",
         "rgb_matrix.h": "c",
         "clocks.h": "c",
-        "microphone.h": "c"
+        "microphone.h": "c",
+        "datetime.h": "c",
+        "alarm.h": "c",
+        "remedicine_configs.h": "c",
+        "pinout.h": "c",
+        "adc.h": "c",
+        "ssd1306.h": "c",
+        "string.h": "c",
+        "rtc.h": "c",
+        "stdio.h": "c",
+        "oled_display.h": "c",
+        "cstdint": "c",
+        "buttons.h": "c",
+        "remedicine.h": "c",
+        "cstring": "c",
+        "stdbool.h": "c"
     }
 }

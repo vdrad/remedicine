@@ -43,6 +43,8 @@ add_executable(remedicine remedicine.c
         inc/buzzer/buzzer.c
         inc/buttons/buttons.c
         inc/microphone/microphone.c
+        inc/alarm/alarm.c
+        inc/remedios/remedios.c
 )
 
 pico_set_program_name(remedicine "remedicine")
@@ -70,6 +72,7 @@ target_link_libraries(remedicine
         hardware_pwm
         hardware_dma
         hardware_adc
+        hardware_rtc
         )
 
 pico_add_extra_outputs(remedicine)
