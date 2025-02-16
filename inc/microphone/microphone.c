@@ -42,7 +42,7 @@ void microphone_init() {
 
     // Utiliza o recurso timer para monitorar o microfone
     static struct repeating_timer  microphone_timer;                                    // Cria a estrutura de timer ciclico
-    add_repeating_timer_us(100 *1000, microphone_detect_blow, NULL, &microphone_timer); // Configura a função button_callback() para ser executada a cada 100 ms
+    add_repeating_timer_us(500 *1000, microphone_detect_blow, NULL, &microphone_timer); // Configura a função para ser executada a cada 500 ms
 }
 
 /**

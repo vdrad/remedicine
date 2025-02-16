@@ -37,7 +37,7 @@ int main() {
 
     // Utiliza o recurso timer para atualizar o horário no display OLED
     static struct repeating_timer display_timer;                                   // Cria a estrutura de timer ciclico
-    add_repeating_timer_us(100 *1000, display_current_time, NULL, &display_timer); // Configura a função button_callback() para ser executada a cada 100 ms
+    add_repeating_timer_us(100 *1000, display_current_time, NULL, &display_timer); // Configura a função para ser executada a cada 100 ms
 
     // Loop infinito
     while (true) {
