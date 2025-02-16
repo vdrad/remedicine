@@ -1,5 +1,13 @@
 /*
-[DESCRIÇÃO DO PROJETO]
+O REMEDICINE é um projeto desenvolvido na BitDogLab v6.3 com objetivo
+de ajudar pessoas que precisam tomar remédio de forma periódica,
+principalmente àqueles controlados. 
+
+O sistema desenvolvido fornece sinalização visual e sonora distintas para cada
+remédio, de modo a tornar fácil a detecção por parte do usuário.
+O cadastro também é feito de forma bastante intuitiva. 
+
+Desenvolvido por: Victor Gomes (@vdrad)
 */
 
 #include <stdio.h>                          // Biblioteca de propósito geral.
@@ -26,7 +34,7 @@ int main() {
     button_init('B');       // Inicializa o Botão B
     microphone_init();      // Inicializa o Microfone
     alarm_init();           // Inicializa o Alarme
-
+    
     // Espera até que o usuário pressione o Botão A ou B para avançar no código
     uint8_t a_button_pressed = get_a_button_state();
     uint8_t b_button_pressed = get_b_button_state();
