@@ -6,7 +6,7 @@
 
 // Definição de cores padronizadas para os LEDs
 #define RED             255, 0, 0
-#define ORANGE          255, 23, 0
+#define ORANGE          230, 40, 0
 #define YELLOW          255, 115, 0
 #define LIME_GREEN      163, 251, 0
 #define GREEN           0, 230,   0
