@@ -29,16 +29,14 @@ int main() {
     while(!get_a_button_state() || get_b_button_state());
 
     // Utiliza o recurso timer para atualizar o horário no display OLED
-    static struct repeating_timer display_timer;                             // Cria a estrutura de timer ciclico
-    add_repeating_timer_us(100, display_current_time, NULL, &display_timer); // Configura a função button_callback() para ser executada a cada 100us
+    static struct repeating_timer display_timer;                                   // Cria a estrutura de timer ciclico
+    add_repeating_timer_us(100 *1000, display_current_time, NULL, &display_timer); // Configura a função button_callback() para ser executada a cada 100 ms
 
     // Não faz mais nada. Loop infinito.
     while (true) {
-        // display_current_time();
         sleep_ms(100);
-        // int8_t medicine_index = check_for_medicine_alarm();
-        // if (medicine_index > -1) notify_medicine(&remedios[medicine_index]);
-        // validate_time();
+        int8_t medicine_index = check_for_medicine_alarm();
+        if (medicine_index > -1) notify_medicine(&remedios[medicine_index]);
     }
 
     return 0;
