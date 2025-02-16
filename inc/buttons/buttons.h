@@ -6,6 +6,6 @@
 // Funções
 void button_init(char button);
 bool get_a_button_state();
-bool get_a_button_state();
+bool get_b_button_state();
 
 #endif

@@ -4,7 +4,7 @@
 #include "pico/stdlib.h"            // Biblioteca geral com códigos pertinentes à RP2040
 #include "inc/pinout.h"             // Biblioteca contendo a relação dos pinos da RP2040 utilizados no projeto
 #include "hardware/timer.h"         // Biblioteca contendo funções relacionadas ao hardware de timer da RP2040
-#include "inc/rgb_matrix/rgb_matrix.h"
+#include "inc/alarm/alarm.h"      // Biblioteca do Buzzer.
 
 bool a_button_used = false;         // Flag para identificar se o Botão A está sendo utilizado no código
 bool b_button_used = false;         // Flag para identificar se o Botão B está sendo utilizado no código
@@ -31,6 +31,7 @@ bool button_callback(struct repeating_timer *t) {
         ) {
             last_a_button_press_time = get_absolute_time(); // Atualiza o tempo da última pressão do Botão A
             a_button_last_state = true;
+            if (get_if_alarm_being_played()) set_stop_melody(1); // Se o botão foi pressionado enquanto um alarme está tocando, interrompa-o.
         } else if (!a_button_pressed) {
             a_button_last_state = false; // Atualiza o status do Botão A para NÃO PRESSIONADO
         }
@@ -50,6 +51,7 @@ bool button_callback(struct repeating_timer *t) {
         ) {
             last_b_button_press_time = get_absolute_time(); // Atualiza o tempo da última pressão do Botão B
             b_button_last_state = true;
+            if (get_if_alarm_being_played()) set_stop_melody(1); // Se o botão foi pressionado enquanto um alarme está tocando, interrompa-o.
         } else if (!b_button_pressed) {
             b_button_last_state = false; // Atualiza o status do Botão B para NÃO PRESSIONADO
         }
