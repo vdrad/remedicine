@@ -57,6 +57,7 @@
         "buttons.h": "c",
         "remedicine.h": "c",
         "cstring": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "timer.h": "c"
     }
 }

@@ -1,11 +1,12 @@
 #include "inc/microphone/microphone.h"
 
+#include <math.h>               // Biblioteca geral com códigos de operações matemáticas.
+#include <stdlib.h>             // Biblioteca geral com códigos úteis em C.
 #include "pico/stdlib.h"        // Biblioteca geral com códigos pertinentes à RP2040.
 #include "hardware/adc.h"       // Biblioteca com funções acerca do ADC (hardware) da RP2040.
 #include "hardware/dma.h"       // Biblioteca com funções acerca do DMA (hardware) da RP2040.
 #include "inc/pinout.h"         // Biblioteca contendo a relação dos pinos da RP2040 utilizados no projeto.
-#include <math.h>               // Biblioteca geral com códigos de operações matemáticas.
-#include <stdlib.h>             // Biblioteca geral com códigos úteis em C.
+#include "inc/alarm/alarm.h"    // Biblioteca do Alarme.
 
 // Cria o canal DMA
 uint dma_channel;
@@ -38,6 +39,10 @@ void microphone_init() {
     channel_config_set_read_increment(&dma_cfg, false);             // Desabilita o incremento automático de endereço de registrador (assim lemos continuamente no mesmo registrador)
     channel_config_set_write_increment(&dma_cfg, true);             // Habilita o incremento automático do endereço de escrita (escreve sucessivamente index a index)
     channel_config_set_dreq(&dma_cfg, DREQ_ADC);                    // Configura a requisição de dados do ADC
+
+    // Utiliza o recurso timer para monitorar o microfone
+    static struct repeating_timer  microphone_timer;                                    // Cria a estrutura de timer ciclico
+    add_repeating_timer_us(100 *1000, microphone_detect_blow, NULL, &microphone_timer); // Configura a função button_callback() para ser executada a cada 100 ms
 }
 
 /**
@@ -84,10 +89,13 @@ float microphone_read_rms_voltage() {
  * Detecta se houve uma situação de sopro 
  * @return 0 caso não. 2 caso sim.
  */
-uint8_t microphone_detect_blow() {
+bool microphone_detect_blow() {
     micrphone_read_sample();                                                    // Faz as leituras do microfone
     float average_reading   = microphone_read_rms_voltage();                    // Converte pra tensão RMS
     average_reading         = 2.f * abs(ADC_READ_VOLTS(average_reading));       // Converte a escala
 
-    return round(average_reading);
+    if (round(average_reading) >= 2) {
+        if (get_if_alarm_being_played()) set_stop_melody(1);
+    }
+    return true;
 }

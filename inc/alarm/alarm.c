@@ -76,7 +76,6 @@ void notify_medicine (Reminders *medicine) {
     get_current_time(buffer);
     text[3] = buffer;                   // Copia o horário atual
     oled_display_write(text, count_of(text), 8);
-    // cancel_repeating_timer(display_timer);
 
     uint8_t melody_played = 1;  // Comando para habilitar que o buzzer toque melodias
 

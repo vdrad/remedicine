@@ -12,6 +12,6 @@
 
 // Funções
 void microphone_init();
-uint8_t microphone_detect_blow();
+bool microphone_detect_blow();
 
 #endif
