@@ -81,7 +81,7 @@ void button_init(char button) {
 
 /**
  * Retorna o estado do Botão A
- * @return estado do Botão A
+ * @return true se foi pressionado. false caso contrário.
  */
 bool get_a_button_state() {
     return a_button_last_state;
@@ -89,7 +89,7 @@ bool get_a_button_state() {
 
 /**
  * Retorna o estado do Botão B
- * @return estado do Botão B
+ * @return true se foi pressionado. false caso contrário.
  */
 bool get_b_button_state() {
     return b_button_last_state;
