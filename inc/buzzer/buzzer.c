@@ -6,17 +6,58 @@
 #include "hardware/pwm.h"       // Biblioteca com funções de PWM da RP2040.
 #include "inc/pinout.h"         // Biblioteca contendo a relação dos pinos da RP2040 utilizados no projeto.
 
-// Trecho da música Blank Space da Taylor Swift
-uint16_t blank_space[] = {
-    NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_G5,NOTE_A5,NOTE_A5,NOTE_G5,NOTE_F5,NOTE_G5,NOTE_F5, 
-    NOTE_G5, NOTE_D5,NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5, NOTE_G5, NOTE_A5, NOTE_A5, 
-    NOTE_G5, NOTE_G5,NOTE_F5,NOTE_AS4,NOTE_F5,NOTE_F5,NOTE_C5,NOTE_C5,NOTE_A5,NOTE_A5,NOTE_AS4,NOTE_F5,NOTE_F5,NOTE_C5,
-    NOTE_C5,NOTE_A5,NOTE_A5,NOTE_AS4,NOTE_F5,NOTE_F5,NOTE_C5,NOTE_A5,NOTE_A5,NOTE_B5,NOTE_A5,NOTE_G5
+uint8_t stop_melody = false;    // Variável para indicar parada do toque da melodia.
+
+// Melodia pré-definida 1
+melody melody_1 = {
+    .melody_chords  = {NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5},
+    .melody_tempo   = {0.25,0.75,0.25,0.75,0.25,0.75,1}
 };
-float blank_space_note_durations[] = {
-    0.25,0.75,0.25,0.75,0.25,0.75,1,0.25,0.5,0.5,0.5,0.25,0.25,0.25,0.5,1,0.25,0.75,0.25,0.75,0.25,0.75,1,
-    0.25,0.5,0.75,0.25,0.5,0.75,0.5,0.5,1,0.25,0.25,0.5,1,0.5,0.5,0.75,0.25,0.5,0.5,1,0.5,0.5,1,0.25,0.5,
-    0.75,0.25,0.25,2
+
+// Melodia pré-definida 2
+melody melody_2 = {
+    .melody_chords  = {NOTE_G5,NOTE_A5,NOTE_A5,NOTE_G5,NOTE_F5,NOTE_G5,NOTE_F5},
+    .melody_tempo   = {0.25,0.5,0.5,0.5,0.25,0.25,0.25}
+};
+
+// Melodia pré-definida 3
+melody melody_3 = {
+    .melody_chords  = {NOTE_G5,NOTE_D5,NOTE_F5, NOTE_F5,NOTE_F5,NOTE_F5,NOTE_F5},
+    .melody_tempo   = {0.5,1,0.25,0.75,0.25,0.75,0.25}
+};
+
+// Melodia pré-definida 4
+melody melody_4 = {
+    .melody_chords  = {NOTE_F5,NOTE_F5,NOTE_G5,NOTE_A5,NOTE_A5,NOTE_G5,NOTE_G5},
+    .melody_tempo   = {0.75,1,0.25,0.5,0.75,0.25,0.5}
+};
+
+// Melodia pré-definida 5
+melody melody_5 = {
+    .melody_chords  = {NOTE_F5,NOTE_AS4,NOTE_F5,NOTE_F5,NOTE_C5,NOTE_C5,NOTE_A5},
+    .melody_tempo   = {0.75,0.5,0.5,1,0.25,0.25,0.5}
+};
+
+// Melodia pré-definida 6
+melody melody_6 = {
+    .melody_chords  = {NOTE_A5,NOTE_AS4,NOTE_F5,NOTE_F5,NOTE_C5,NOTE_C5,NOTE_A5},
+    .melody_tempo   = {1,0.5,0.5,0.75,0.25,0.5,0.5}
+};
+
+// Melodia pré-definida 6
+melody melody_7 = {
+    .melody_chords  = {NOTE_A5,NOTE_AS4,NOTE_F5,NOTE_F5,NOTE_C5,NOTE_A5,NOTE_A5},
+    .melody_tempo   = {1,0.5,0.5,1,0.25,0.5,0.75}
+};
+
+melody smile_melody = {
+    .melody_chords = {NOTE_C7,NOTE_D7,NOTE_E7,NOTE_F7,NOTE_G7,NOTE_A7,NOTE_C7},
+    .melody_tempo  = {0.2,0.25,0.5,0.25,0.5,0.25,0.5}
+};
+
+melody sad_melody = {
+    .melody_chords = {NOTE_C3,NOTE_D3,NOTE_E3,NOTE_F3,NOTE_G3,NOTE_A3,NOTE_C3},
+    .melody_tempo  = {0.2,0.25,0.5,0.25,0.5,0.25,0.5}
 };
 
 /**
@@ -66,11 +107,27 @@ void buzzer_stop(char side) {
     pwm_set_gpio_level(pin, 0); // Desliga o som após a duração
 }
 
+uint8_t buzzer_play_melody(char side, melody *chosen_melody) {
+    for (int this_note = 0; this_note < MELODY_FIXED_SIZE; this_note++) {
+        int note_duration = (int)(NOTE_MULTIPLIER * chosen_melody->melody_tempo[this_note]);
+        int pause_between_notes = note_duration * 1.05;
+        
+        if (stop_melody) return 0;
+        buzzer_play_tone(side, chosen_melody->melody_chords[this_note], note_duration, pause_between_notes);
+    }
+    return 1;
+}
+
+void set_stop_melody(uint8_t value) {
+    stop_melody = value;
+}
+
 void buzzer_validate(char side) {
-    for (int this_note = 0; this_note < 52; this_note++) {
-        int note_duration = (int)(NOTE_MULTIPLIER * blank_space_note_durations[this_note]);
+    for (int this_note = 0; this_note < 7; this_note++) {
+        int note_duration = (int)(NOTE_MULTIPLIER * melody_7.melody_tempo[this_note]);
         int pause_between_notes = note_duration * 1.05;
 
-        buzzer_play_tone(side, blank_space[this_note], note_duration, pause_between_notes);
+        buzzer_play_tone(side, melody_7.melody_chords[this_note], note_duration, pause_between_notes);
     }
 }
+

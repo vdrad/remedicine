@@ -7,13 +7,30 @@
 #define BUZZER_PWM_DIV 16.f
 
 // Definições de melodia
-#define NOTE_MULTIPLIER  290.f // Multiplica o tempo da música (1, 1/4, 1/2...)
-#define PAUSE_MULTIPLIER 1.05f // Multiplica a pausa da música 
+#define NOTE_MULTIPLIER     290.f // Multiplica o tempo da música (1, 1/4, 1/2...)
+#define PAUSE_MULTIPLIER    1.05f // Multiplica a pausa da música 
+#define MELODY_FIXED_SIZE   7     // Quantidade de notas em uma melodia padronizada
+
+// Melodias
+typedef struct {                    // Estrutura de melodia, agrupando notas e tempo de duração
+    uint16_t melody_chords[MELODY_FIXED_SIZE];
+    float melody_tempo[MELODY_FIXED_SIZE];
+} melody;
+extern melody melody_1;
+extern melody melody_2;
+extern melody melody_3;
+extern melody melody_4;
+extern melody melody_5;
+extern melody melody_6;
+extern melody melody_7;
+extern melody smile_melody;
+extern melody sad_melody;
 
 // Funções
 void buzzer_init(char side);
-void buzzer_play_tone(char side, uint frequency, uint duration_ms, uint pause_ms);
+uint8_t buzzer_play_melody(char side, melody *chosen_melody);
 void buzzer_stop(char side);
+void set_stop_melody(uint8_t value);
 void buzzer_validate(char side);
 
 // MUSIC NOTES
