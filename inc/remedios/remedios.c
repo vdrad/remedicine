@@ -31,8 +31,8 @@ Reminders remedios[NUMERO_DE_REMEDIOS] = {
             .day    = -1, 
             .dotw   = -1,
             .hour   = 12,
-            .min    = 1,
-            .sec    = 10
+            .min    = 0,
+            .sec    = 40
         }
     }
 };

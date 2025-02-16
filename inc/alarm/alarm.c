@@ -37,6 +37,7 @@ int8_t check_for_medicine_alarm() {
         return i; // Caso todos sejam iguais, retorna o index desse remédio no vetor de remédios
     }
 
+    set_alarm_being_played(false);
     return -1;  // Caso não, retorna -1 indicando que não há remédio cadastrado para a data e hora atuais.
 }
 
