@@ -100,6 +100,10 @@ void buzzer_play_tone(char side, uint frequency, uint duration_ms, uint pause_ms
     sleep_ms(pause_ms);         // Pausa entre notas
 }
 
+/**
+ * Para de tocar a nota musical.
+ * @param side o buzzer a ser tocado. 'R' ou 'r' para direito. 'L' ou 'l' para esquerdo.
+ */
 void buzzer_stop(char side) {
     uint8_t pin = LEFT_BUZZER_PIN;                          // Define por padrão o pino do Buzzer Esquerdo, evitando erros caso o parâmetro side seja definido erroneamente
     if (side == 'R' || side == 'r') pin = RIGHT_BUZZER_PIN; // Caso qualquer outro caractere seja escrito por engano, será declarado o buzzer esquerdo
@@ -107,6 +111,12 @@ void buzzer_stop(char side) {
     pwm_set_gpio_level(pin, 0); // Desliga o som após a duração
 }
 
+/**
+ * Toca uma melodia pré-definida
+ * @param side o buzzer a ser tocado. 'R' ou 'r' para direito. 'L' ou 'l' para esquerdo.
+ * @param chosen_melody a melodia escolhida.
+ * @return 1 ao final.
+ */
 uint8_t buzzer_play_melody(char side, melody *chosen_melody) {
     for (int this_note = 0; this_note < MELODY_FIXED_SIZE; this_note++) {
         int note_duration = (int)(NOTE_MULTIPLIER * chosen_melody->melody_tempo[this_note]);
@@ -118,10 +128,18 @@ uint8_t buzzer_play_melody(char side, melody *chosen_melody) {
     return 1;
 }
 
+/**
+ * Atualiza o valor de stop_melody. Ou seja, habilita ou desabilita a interrupção da melodia atual.
+ * @param value 1 para interromper a melodia atual. 0 para deixá-la tocando.
+ */
 void set_stop_melody(uint8_t value) {
     stop_melody = value;
 }
 
+/**
+ * Toca uma melodia de teste para validar o buzzer.
+ * @param side o buzzer a ser tocado. 'R' ou 'r' para direito. 'L' ou 'l' para esquerdo.
+ */
 void buzzer_validate(char side) {
     for (int this_note = 0; this_note < 7; this_note++) {
         int note_duration = (int)(NOTE_MULTIPLIER * melody_7.melody_tempo[this_note]);

@@ -53,7 +53,7 @@ Reminders remedios[NUMERO_DE_REMEDIOS] = {
         }
     },
 
-    // Remédio 4: Paracetamol
+    // Remédio 4: Omeprazol
     {
         .medicine_name      = "Omeprazol",
         .rgb_matrix_pattern = square_pattern,
@@ -70,9 +70,9 @@ Reminders remedios[NUMERO_DE_REMEDIOS] = {
         }
     },
 
-    // Remédio 5: Paracetamol
+    // Remédio 5: Anador
     {
-        .medicine_name      = "Omeprazol",
+        .medicine_name      = "Anador",
         .rgb_matrix_pattern = triangle_pattern,
         .rgb_color          = {EMERALD},
         .chosen_melody      = &melody_5,

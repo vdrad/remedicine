@@ -7,7 +7,7 @@ O sistema desenvolvido fornece sinalização visual e sonora distintas para cada
 remédio, de modo a tornar fácil a detecção por parte do usuário.
 O cadastro também é feito de forma bastante intuitiva. 
 
-Desenvolvido por: Victor Gomes (@vdrad)
+Desenvolvido por: Victor Gomes (github.com/vdrad)
 */
 
 #include <stdio.h>                          // Biblioteca de propósito geral.
@@ -21,8 +21,6 @@ Desenvolvido por: Victor Gomes (@vdrad)
 #include "inc/microphone/microphone.h"      // Biblioteca do Microfone.
 #include "inc/alarm/alarm.h"                // Biblioteca do Alarme.
 #include "inc/remedios/remedios.h"          // Biblioteca de cadastro dos remédios.
-
-// extern struct repeating_timer display_timer;
 
 /* ==================================== CÓDIGO PRINCIPAL ==================================== */
 int main() {
@@ -39,7 +37,7 @@ int main() {
     uint8_t a_button_pressed = get_a_button_state();
     uint8_t b_button_pressed = get_b_button_state();
     uint8_t microphone_read  = get_microphone_read();
-    while((!a_button_pressed) && (!b_button_pressed)) {
+    while(((!a_button_pressed) && (!b_button_pressed)) || microphone_read != 2) {
         a_button_pressed = get_a_button_state();
         b_button_pressed = get_b_button_state();
     };
