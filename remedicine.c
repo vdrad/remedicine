@@ -33,7 +33,7 @@ int main() {
     microphone_init();      // Inicializa o Microfone
     alarm_init();           // Inicializa o Alarme
     
-    // Espera até que o usuário pressione o Botão A ou B para avançar no código
+    // Espera até que o usuário pressione o Botão A ou B ou sopre no microfone para avançar no código
     uint8_t a_button_pressed = get_a_button_state();
     uint8_t b_button_pressed = get_b_button_state();
     uint8_t microphone_read  = get_microphone_read();
